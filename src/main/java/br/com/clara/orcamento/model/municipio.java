@@ -2,17 +2,23 @@ package br.com.clara.orcamento.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name="municipio")
 public class municipio {
     @Id
-    private Long id;
+    private int id;
 
     private String nome;
+
+@OneToMany(mappedBy = "municipio")
+private List<cliente> clienteList = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

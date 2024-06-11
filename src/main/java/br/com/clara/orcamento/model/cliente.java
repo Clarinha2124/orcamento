@@ -1,10 +1,10 @@
 package br.com.clara.orcamento.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +17,14 @@ private String nomecliente;
 
     private String endereco;
     private String numero;
+
+    @ManyToOne
+    @JoinColumn(name="idmunicipio")
+    private municipio municipio;
+
+    @OneToMany(mappedBy = "municipio")
+    private List<cliente> clienteList = new ArrayList<>();
+
 
     public Long getId() {
         return id;
