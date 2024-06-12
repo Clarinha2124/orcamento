@@ -1,9 +1,6 @@
 package br.com.clara.orcamento.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,20 +8,21 @@ import java.util.Objects;
 
 @Entity
 @Table(name="municipio")
-public class municipio {
+public class Municipio {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     private String nome;
 
 @OneToMany(mappedBy = "municipio")
-private List<cliente> clienteList = new ArrayList<>();
+private List<Cliente> clienteList = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        municipio municipio = (municipio) o;
+        Municipio municipio = (Municipio) o;
         return Objects.equals(id, municipio.id);
     }
 

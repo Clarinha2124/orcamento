@@ -10,9 +10,10 @@ import java.util.Objects;
 @Entity
 @Table(name="cliente")
 
-public class cliente {
+public class Cliente {
 @Id
-    private Long id;
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 private String nomecliente;
 
     private String endereco;
@@ -20,10 +21,10 @@ private String nomecliente;
 
     @ManyToOne
     @JoinColumn(name="idmunicipio")
-    private municipio municipio;
+    private Municipio municipio;
 
-    @OneToMany(mappedBy = "municipio")
-    private List<cliente> clienteList = new ArrayList<>();
+    @OneToMany(mappedBy = "cliente")
+    private List<Lancamento> lancamentoList = new ArrayList<>();
 
 
     public Long getId() {
@@ -34,7 +35,7 @@ private String nomecliente;
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        cliente cliente = (cliente) o;
+        Cliente cliente = (Cliente) o;
         return Objects.equals(id, cliente.id);
     }
 

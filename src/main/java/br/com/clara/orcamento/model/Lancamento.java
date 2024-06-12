@@ -1,8 +1,6 @@
 package br.com.clara.orcamento.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,11 +9,12 @@ import java.util.Objects;
 @Entity
 @Table(name="lancamento")
 
-public class lancamento {
+public class Lancamento {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate datalancamento;
-    private Long idcliente;
+
     private String tipolancamento;
     private BigDecimal valorlancamento;
 
@@ -27,11 +26,17 @@ public class lancamento {
         this.id = id;
     }
 
+    @ManyToOne
+    @JoinColumn(name="idcliente")
+    private Cliente cliente;
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        lancamento that = (lancamento) o;
+        Lancamento that = (Lancamento) o;
         return Objects.equals(id, that.id);
     }
 
@@ -48,13 +53,6 @@ public class lancamento {
         this.datalancamento = datalancamento;
     }
 
-    public Long getIdcliente() {
-        return idcliente;
-    }
-
-    public void setIdcliente(Long idcliente) {
-        this.idcliente = idcliente;
-    }
 
     public String getTipolancamento() {
         return tipolancamento;
