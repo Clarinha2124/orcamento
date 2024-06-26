@@ -1,0 +1,1 @@
+Alter table cliente Modify nome varchar (200);
