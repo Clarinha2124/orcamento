@@ -14,6 +14,8 @@ public class Municipio {
     private long id;
 
     private String nome;
+    private String estado;
+
 
 @OneToMany(mappedBy = "municipio")
 private List<Cliente> clienteList = new ArrayList<>();
@@ -55,6 +57,6 @@ private List<Cliente> clienteList = new ArrayList<>();
         this.estado = estado;
     }
 
-    private String estado;
+
 
 }
