@@ -18,7 +18,7 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<Cliente> Inserir (@RequestBody Cliente cliente){
         Cliente clienteSalva=clienteService.salvar(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalva);
