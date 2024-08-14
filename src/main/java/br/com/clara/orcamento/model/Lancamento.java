@@ -27,10 +27,16 @@ public class Lancamento {
     }
 
     @ManyToOne
-    @JoinColumn(name="idcliente")
+    @JoinColumn(name="id_cliente")
     private Cliente cliente;
 
+    public Cliente getCliente() {
+        return cliente;
+    }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     @Override
     public boolean equals(Object o) {

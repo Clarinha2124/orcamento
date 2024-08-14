@@ -14,13 +14,38 @@ public class Cliente {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-private String nomecliente;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    private String nome;
 
     private String endereco;
     private String numero;
+    private String bairro;
+
+    private String telefone;
+    private String celular;
+
+    public Municipio getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(Municipio municipio) {
+        this.municipio = municipio;
+    }
 
     @ManyToOne
-    @JoinColumn(name="idmunicipio")
+    @JoinColumn(name="id_municipio")
     private Municipio municipio;
 
     @OneToMany(mappedBy = "cliente")
@@ -48,13 +73,7 @@ private String nomecliente;
         this.id = id;
     }
 
-    public String getNomecliente() {
-        return nomecliente;
-    }
 
-    public void setNomecliente(String nomecliente) {
-        this.nomecliente = nomecliente;
-    }
 
     public String getEndereco() {
         return endereco;
@@ -80,14 +99,6 @@ private String nomecliente;
         this.bairro = bairro;
     }
 
-    public int getId_municipio() {
-        return id_municipio;
-    }
-
-    public void setId_municipio(int id_municipio) {
-        this.id_municipio = id_municipio;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -104,8 +115,5 @@ private String nomecliente;
         this.celular = celular;
     }
 
-    private String bairro;
-    private int id_municipio;
-    private String telefone;
-    private String celular;
+
 }
