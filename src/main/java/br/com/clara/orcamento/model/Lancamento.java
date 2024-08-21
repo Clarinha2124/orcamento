@@ -38,6 +38,7 @@ public class Lancamento {
         this.cliente = cliente;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

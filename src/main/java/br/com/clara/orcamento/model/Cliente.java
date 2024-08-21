@@ -1,6 +1,7 @@
 package br.com.clara.orcamento.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class Cliente {
     @ManyToOne
     @JoinColumn(name="id_municipio")
     private Municipio municipio;
-
+@JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Lancamento> lancamentoList = new ArrayList<>();
 
