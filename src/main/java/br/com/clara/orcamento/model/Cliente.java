@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Cliente {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     public void setId(long id) {
         this.id = id;
@@ -49,7 +49,7 @@ public class Cliente {
     @JoinColumn(name="id_municipio")
     private Municipio municipio;
 @JsonIgnore
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy ="cliente")
     private List<Lancamento> lancamentoList = new ArrayList<>();
 
 

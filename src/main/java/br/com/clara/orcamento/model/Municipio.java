@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Municipio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String nome;
     private String estado;

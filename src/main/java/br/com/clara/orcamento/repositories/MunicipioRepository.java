@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface MunicipioRepository extends JpaRepository<Municipio, Integer>{
+public interface MunicipioRepository extends JpaRepository<Municipio, Long>{
 
 }
 
