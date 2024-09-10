@@ -35,7 +35,10 @@ public class ClienteController {
         Optional<Cliente> cliente = clienteRepository.findById(id);
         return cliente.isPresent() ? ResponseEntity.ok(cliente.get()): ResponseEntity.notFound().build();
     }
-
+    @DeleteMapping("/{id}")
+    public void remover(@PathVariable Long id){
+        clienteRepository.deleteById(id);
+    }
     @PostMapping()
     public ResponseEntity<Cliente> Inserir (@RequestBody Cliente cliente){
         Cliente clienteSalva=clienteService.salvar(cliente);

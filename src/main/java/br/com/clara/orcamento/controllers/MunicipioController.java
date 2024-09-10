@@ -33,7 +33,10 @@ public class MunicipioController {
         Optional<Municipio> municipio = municipioRepository.findById(id);
         return municipio.isPresent() ? ResponseEntity.ok(municipio.get()): ResponseEntity.notFound().build();
     }
-
+    @DeleteMapping("/{id}")
+    public void remover(@PathVariable Long id){
+        municipioRepository.deleteById(id);
+    }
     @PostMapping()
     public ResponseEntity<Municipio> Inserir (@RequestBody Municipio municipio){
         Municipio municipioSalva=municipioService.salvar(municipio);

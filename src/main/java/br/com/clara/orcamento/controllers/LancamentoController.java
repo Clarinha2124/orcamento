@@ -35,7 +35,10 @@ public class LancamentoController {
         Optional<Lancamento> lancamento = lancamentoRepository.findById(id);
         return lancamento.isPresent() ? ResponseEntity.ok(lancamento.get()): ResponseEntity.notFound().build();
     }
-
+    @DeleteMapping("/{id}")
+    public void remover(@PathVariable Long id){
+        lancamentoRepository.deleteById(id);
+    }
     @PostMapping
     public ResponseEntity<Lancamento> Inserir (@RequestBody Lancamento lancamento){
 
