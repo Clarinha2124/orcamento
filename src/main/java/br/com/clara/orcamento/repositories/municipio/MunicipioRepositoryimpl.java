@@ -1,5 +1,6 @@
 package br.com.clara.orcamento.repositories.municipio;
 
+import br.com.clara.orcamento.dto.MunicipioDto;
 import br.com.clara.orcamento.model.Municipio;
 import br.com.clara.orcamento.repositories.filter.MunicipioFilter;
 
@@ -18,13 +19,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MunicipioRepositoryimpl implements MunicipioRepositoryQuery{
+public class MunicipioRepositoryimpl implements MunicipioRepositoryQuery {
 
     @PersistenceContext
     private EntityManager manager;
 
     @Override
-    public Page<Municipio> filtrar (MunicipioFilter municipioFilter, Pageable pageable){
+    public Page<Municipio> filtrar(MunicipioFilter municipioFilter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Municipio> criteria = builder.createQuery(Municipio.class);
         Root<Municipio> root = criteria.from(Municipio.class);
@@ -32,14 +33,21 @@ public class MunicipioRepositoryimpl implements MunicipioRepositoryQuery{
         criteria.where(predicates);
         criteria.orderBy(builder.asc(root.get("nome")));
 
-        TypedQuery<Municipio> query=manager.createQuery(criteria);
-        adicionarRestricoesPaginacao(query,pageable);
+        TypedQuery<Municipio> query = manager.createQuery(criteria);
+        adicionarRestricoesPaginacao(query, pageable);
+        criteria.select(builder.construct(MunicipioDto.class
+
+                , root.get("id")
+                , root.get("nome")
+                , root.get("estado");
+
 
 
         return new PageImpl<>(query.getResultList(), pageable, total(municipioFilter));
 
     }
-    private Long total(MunicipioFilter municipioFilter){
+
+    private Long total(MunicipioFilter municipioFilter) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
         Root<Municipio> root = criteria.from(Municipio.class);
@@ -62,12 +70,23 @@ public class MunicipioRepositoryimpl implements MunicipioRepositoryQuery{
     }
 
     private Predicate[] criarRestricoes(MunicipioFilter municipioFilter, CriteriaBuilder builder, Root<Municipio> root) {
-        List<Predicate> predicates= new ArrayList<>();
+        List<Predicate> predicates = new ArrayList<>();
 
-        if (!StringUtils.isEmpty(municipioFilter.getNome())){
+        if (!StringUtils.isEmpty(municipioFilter.getNome())) {
             predicates.add(builder.like(builder.lower(root.get("nome")), "%" + municipioFilter.getNome().toLowerCase() + "%"));
         }
         return predicates.toArray(new Predicate[predicates.size()]);
+
+    }
+
+    private void adicionarRestricoesDePaginacao(TypedQuery<MunicipioDto> query, Pageable pageable) {
+        int paginaAtual = pageable.getPageNumber();
+        ;
+        int totalRegistroPorPagina = pageable.getPageSize();
+        int primeiroRegistroDaPagina = paginaAtual * totalRegistroPorPagina;
+
+        query.setFirstResult(primeiroRegistroDaPagina);
+        query.setMaxResults(totalRegistroPorPagina);
     }
 }
 
