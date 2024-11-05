@@ -1,5 +1,9 @@
 package br.com.clara.orcamento.dto;
 
+import br.com.clara.orcamento.model.Cliente;
+
+import java.math.BigDecimal;
+
 public class ClienteDto {
     private String endereco;
     private String numero;
@@ -48,4 +52,10 @@ public class ClienteDto {
 
     private String telefone;
     private String celular;
+
+    public ClienteDto(String endereco,String numero) {
+        this.numero = numero;
+        this.endereco = endereco;
+
+    }
 }

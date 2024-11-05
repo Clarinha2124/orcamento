@@ -32,4 +32,9 @@ public class MunicipioDto {
     public void setEstado(String estado) {
         Estado = estado;
     }
+    public MunicipioDto(Long id, String nome, String Estado) {
+        this.id = id;
+        this.nome = nome;
+        this.Estado = Estado;
+    }
 }

@@ -37,11 +37,14 @@ public class ClienteRepositoryimpl implements ClienteRepositoryQuery {
             TypedQuery<Cliente> query = manager.createQuery(criteria);
             adicionarRestricoesPaginacao(query, pageable);
             criteria.select(builder.construct(ClienteDto.class
-                    , root.get("id")
-                    , root.get("nome")
-                    , root.get("estado");
+
+                    , root.get("endereco")
+                    , root.get("numero").));
 
 
+            Predicate[] predicates = criarRestricoes(clienteFilter, builder, root);
+            criteria.where(predicates);
+            criteria.orderBy(builder.asc(root.get("nome")));
 
 
             return new PageImpl<>(query.getResultList(), pageable, total(clienteFilter));

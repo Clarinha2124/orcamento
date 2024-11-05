@@ -29,19 +29,20 @@ public class MunicipioRepositoryimpl implements MunicipioRepositoryQuery {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Municipio> criteria = builder.createQuery(Municipio.class);
         Root<Municipio> root = criteria.from(Municipio.class);
-        Predicate[] predicates = criarRestricoes(municipioFilter, builder, root);
-        criteria.where(predicates);
-        criteria.orderBy(builder.asc(root.get("nome")));
+
 
         TypedQuery<Municipio> query = manager.createQuery(criteria);
         adicionarRestricoesPaginacao(query, pageable);
+
         criteria.select(builder.construct(MunicipioDto.class
 
                 , root.get("id")
                 , root.get("nome")
-                , root.get("estado");
+                , root.get("estado").get("nomemunicipio")));
 
-
+        Predicate[] predicates = criarRestricoes(municipioFilter, builder, root);
+        criteria.where(predicates);
+        criteria.orderBy(builder.asc(root.get("nome")));
 
         return new PageImpl<>(query.getResultList(), pageable, total(municipioFilter));
 
