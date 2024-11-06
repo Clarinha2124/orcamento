@@ -26,26 +26,27 @@ public class ClienteRepositoryimpl implements ClienteRepositoryQuery {
         private EntityManager manager;
 
         @Override
-        public Page<Cliente> filtrar(ClienteFilter clienteFilter, Pageable pageable) {
+        public Page<ClienteDto> filtrar(ClienteFilter clienteFilter, Pageable pageable) {
             CriteriaBuilder builder = manager.getCriteriaBuilder();
-            CriteriaQuery<Cliente> criteria = builder.createQuery(Cliente.class);
+            CriteriaQuery<ClienteDto> criteria = builder.createQuery(ClienteDto.class);
             Root<Cliente> root = criteria.from(Cliente.class);
-            Predicate[] predicates = criarRestricoes(clienteFilter, builder, root);
-            criteria.where(predicates);
-            criteria.orderBy(builder.asc(root.get("nome")));
 
-            TypedQuery<Cliente> query = manager.createQuery(criteria);
-            adicionarRestricoesPaginacao(query, pageable);
+
+
             criteria.select(builder.construct(ClienteDto.class
 
-                    , root.get("endereco")
-                    , root.get("numero").));
+                    ,root.get("nome")
+                            ,root.get("endereco")
+                            ,root.get("numero")
+                    ));
 
 
             Predicate[] predicates = criarRestricoes(clienteFilter, builder, root);
             criteria.where(predicates);
             criteria.orderBy(builder.asc(root.get("nome")));
 
+            TypedQuery<ClienteDto> query = manager.createQuery(criteria);
+            adicionarRestricoesPaginacao(query, pageable);
 
             return new PageImpl<>(query.getResultList(), pageable, total(clienteFilter));
 
@@ -64,7 +65,7 @@ public class ClienteRepositoryimpl implements ClienteRepositoryQuery {
 
         }
 
-        private void adicionarRestricoesPaginacao(TypedQuery<Cliente> query, Pageable pageable) {
+        private void adicionarRestricoesPaginacao(TypedQuery<ClienteDto> query, Pageable pageable) {
             int paginaAtual = pageable.getPageNumber();
             int totalRegistrosPorPagina = pageable.getPageSize();
             int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;

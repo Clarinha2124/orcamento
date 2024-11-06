@@ -1,6 +1,5 @@
 package br.com.clara.orcamento.repositories.municipio;
 
-import br.com.clara.orcamento.dto.MunicipioDto;
 import br.com.clara.orcamento.model.Municipio;
 import br.com.clara.orcamento.repositories.filter.MunicipioFilter;
 
@@ -31,18 +30,15 @@ public class MunicipioRepositoryimpl implements MunicipioRepositoryQuery {
         Root<Municipio> root = criteria.from(Municipio.class);
 
 
-        TypedQuery<Municipio> query = manager.createQuery(criteria);
-        adicionarRestricoesPaginacao(query, pageable);
 
-        criteria.select(builder.construct(MunicipioDto.class
 
-                , root.get("id")
-                , root.get("nome")
-                , root.get("estado").get("nomemunicipio")));
 
         Predicate[] predicates = criarRestricoes(municipioFilter, builder, root);
         criteria.where(predicates);
         criteria.orderBy(builder.asc(root.get("nome")));
+
+        TypedQuery<Municipio> query = manager.createQuery(criteria);
+        adicionarRestricoesPaginacao(query, pageable);
 
         return new PageImpl<>(query.getResultList(), pageable, total(municipioFilter));
 
@@ -80,7 +76,7 @@ public class MunicipioRepositoryimpl implements MunicipioRepositoryQuery {
 
     }
 
-    private void adicionarRestricoesDePaginacao(TypedQuery<MunicipioDto> query, Pageable pageable) {
+    private void adicionarRestricoesDePaginacao(TypedQuery<Municipio> query, Pageable pageable) {
         int paginaAtual = pageable.getPageNumber();
         ;
         int totalRegistroPorPagina = pageable.getPageSize();

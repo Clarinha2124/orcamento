@@ -1,11 +1,7 @@
 package br.com.clara.orcamento.repositories.lancamento;
 
-
-import br.com.clara.orcamento.dto.ClienteDto;
-import br.com.clara.orcamento.model.Cliente;
-
+import br.com.clara.orcamento.dto.LancamentoDto;
 import br.com.clara.orcamento.model.Lancamento;
-import br.com.clara.orcamento.repositories.filter.ClienteFilter;
 import br.com.clara.orcamento.repositories.filter.LancamentoFilter;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -28,25 +24,28 @@ public class LancamentoRepositoryimpl implements LancamentoRepositoryQuery {
     private EntityManager manager;
 
     @Override
-    public Page<Lancamento> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable) {
+    public Page<LancamentoDto> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
-        CriteriaQuery<Lancamento> criteria = builder.createQuery(Lancamento.class);
+        CriteriaQuery<LancamentoDto> criteria = builder.createQuery(LancamentoDto.class);
         Root<Lancamento> root = criteria.from(Lancamento.class);
+
+        criteria.select(builder.construct(LancamentoDto.class
+                , root.get("datalancamento")
+                , root.get("tipolancamento")
+                , root.get("id")
+                , root.get("valorlancamento")));
+
+
+
+
+
         Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
         criteria.where(predicates);
         criteria.orderBy(builder.asc(root.get("nome")));
 
-        TypedQuery<Lancamento> query = manager.createQuery(criteria);
+        TypedQuery<LancamentoDto> query = manager.createQuery(criteria);
         adicionarRestricoesPaginacao(query, pageable);
-        criteria.select(builder.construct(ClienteDto.class
 
-                , root.get("endereco")
-                , root.get("numero").));
-
-
-        Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
-        criteria.where(predicates);
-        criteria.orderBy(builder.asc(root.get("nome")));
 
 
         return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));
@@ -58,7 +57,7 @@ public class LancamentoRepositoryimpl implements LancamentoRepositoryQuery {
         CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
         Root<Lancamento> root = criteria.from(Lancamento.class);
 
-        Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
+        Predicate[] predicates = criarRestricoes(lancamentoFilter, builder,root);
         criteria.where(predicates);
 
         criteria.select(builder.count(root));
@@ -66,7 +65,7 @@ public class LancamentoRepositoryimpl implements LancamentoRepositoryQuery {
 
     }
 
-    private void adicionarRestricoesPaginacao(TypedQuery<Cliente> query, Pageable pageable) {
+    private void adicionarRestricoesPaginacao(TypedQuery<LancamentoDto> query, Pageable pageable) {
         int paginaAtual = pageable.getPageNumber();
         int totalRegistrosPorPagina = pageable.getPageSize();
         int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
@@ -75,11 +74,11 @@ public class LancamentoRepositoryimpl implements LancamentoRepositoryQuery {
         query.setMaxResults(totalRegistrosPorPagina);
     }
 
-    private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter, CriteriaBuilder builder, Root<Cliente> root) {
+    private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter, CriteriaBuilder builder, Root<Lancamento> root) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if (!StringUtils.isEmpty(lancamentoFilter.getNumero())) {
-            predicates.add(builder.like(builder.lower(root.get("numero")), "%" + lancamentoFilter.getNumero().toLowerCase() + "%"));
+        if (!StringUtils.isEmpty(lancamentoFilter.getTipolancamento())) {
+            predicates.add(builder.like(builder.lower(root.get("numero")), "%" + lancamentoFilter.getTipolancamento().toLowerCase() + "%"));
         }
         return predicates.toArray(new Predicate[predicates.size()]);
 

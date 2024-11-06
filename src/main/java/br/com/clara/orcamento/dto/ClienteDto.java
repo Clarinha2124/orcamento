@@ -5,7 +5,24 @@ import br.com.clara.orcamento.model.Cliente;
 import java.math.BigDecimal;
 
 public class ClienteDto {
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    private String nome;
     private String endereco;
+
+    public ClienteDto(String nome, String endereco, String numero) {
+        this.nome = nome;
+        this.endereco = endereco;
+        this.numero = numero;
+    }
+
     private String numero;
 
     public String getEndereco() {
