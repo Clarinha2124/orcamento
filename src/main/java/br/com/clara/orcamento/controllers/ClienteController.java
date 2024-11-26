@@ -25,7 +25,7 @@ public class ClienteController {
     private ClienteRepository clienteRepository;
 
 
-    @GetMapping()
+    @GetMapping("/todas")
     public List<Cliente>listarTodosClientes(){
         return clienteRepository.findAll(Sort.by("nome").ascending());
     }
@@ -44,5 +44,18 @@ public class ClienteController {
         Cliente clienteSalva=clienteService.salvar(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalva);
 
+
+        @PutMapping("/{id}")
+        public ResponseEntity<Cliente> atualizar (@PathVariable long id, @RequestBody Cliente cliente){
+                Cliente clienteSalva = clienteService.atualizar(id, cliente);
+                return ResponseEntity.ok(clienteSalva);
+
+        }
+        }
+
     }
-}
+
+
+
+
+
