@@ -40,16 +40,18 @@ public class ClienteController {
         return cliente.isPresent() ? ResponseEntity.ok(cliente.get()): ResponseEntity.notFound().build();
     }
     @PostMapping()
-    public ResponseEntity<Cliente> Inserir(@RequestBody Cliente cliente){
-        Cliente categoriaSalva= clienteService.salvar(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
+    public ResponseEntity<Cliente> inserir(@RequestBody Cliente cliente){
+        Cliente clienteSalva= clienteService.salvar(cliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteSalva);
     }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long id){
         clienteRepository.deleteById(id);
     }
-    @PutMapping("/id")
+
+
+    @PutMapping("/{id}")
     public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody Cliente cliente) {
         Cliente clienteSalva = clienteService.atualizar(id, cliente);
         return ResponseEntity.ok(clienteSalva);

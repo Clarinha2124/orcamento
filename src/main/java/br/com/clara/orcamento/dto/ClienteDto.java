@@ -17,13 +17,20 @@ public class ClienteDto {
     private String nome;
     private String endereco;
 
-    public ClienteDto(String nome, String endereco, String numero) {
-        this.nome = nome;
-        this.endereco = endereco;
-        this.numero = numero;
+    private String numero;
+    private String bairro;
+
+    private String telefone;
+    private String celular;
+    private int id_municipio;
+
+    public int getId_municipio() {
+        return id_municipio;
     }
 
-    private String numero;
+    public void setId_municipio(int id_municipio) {
+        this.id_municipio = id_municipio;
+    }
 
     public String getEndereco() {
         return endereco;
@@ -65,14 +72,16 @@ public class ClienteDto {
         this.celular = celular;
     }
 
-    private String bairro;
 
-    private String telefone;
-    private String celular;
 
-    public ClienteDto(String endereco,String numero) {
-        this.numero = numero;
+    public ClienteDto( String nome, String endereco, String numero, String bairro, String telefone, String celular, int id_municipio) {
+        this.nome = nome;
         this.endereco = endereco;
-
+        this.numero = numero;
+        this.bairro = bairro;
+        this.telefone = telefone;
+        this.celular = celular;
+        this.id_municipio = id_municipio;
     }
+
 }

@@ -13,10 +13,10 @@ import java.util.Optional;
 public class ClienteService {
 
   @Autowired
-    private ClienteRepository clienteRepository;
+  private ClienteRepository clienteRepository;
 
-    public Cliente salvar(Cliente cliente){ return clienteRepository.save(cliente);
-}
+  public Cliente salvar(Cliente cliente){ return clienteRepository.save(cliente);
+  }
   public Cliente atualizar (Long id, Cliente cliente){
     Cliente clienteSalva = buscarClienteExistente(id);
 
