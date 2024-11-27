@@ -41,4 +41,11 @@ public class LancamentoFilter {
 
     private String tipolancamento;
     private BigDecimal valorlancamento;
+
+    public LancamentoFilter(Long id, LocalDate datalancamento, String tipolancamento, BigDecimal valorlancamento) {
+        this.id = id;
+        this.datalancamento = datalancamento;
+        this.tipolancamento = tipolancamento;
+        this.valorlancamento = valorlancamento;
+    }
 }

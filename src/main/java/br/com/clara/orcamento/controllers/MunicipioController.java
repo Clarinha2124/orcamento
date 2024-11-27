@@ -1,11 +1,13 @@
 package br.com.clara.orcamento.controllers;
 
 
-import br.com.clara.orcamento.model.Cliente;
-import br.com.clara.orcamento.model.Municipio;
 import br.com.clara.orcamento.repositories.MunicipioRepository;
+import br.com.clara.orcamento.repositories.filter.MunicipioFilter;
+import br.com.clara.orcamento.model.Municipio;
 import br.com.clara.orcamento.services.MunicipioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,13 @@ public class MunicipioController {
     private MunicipioRepository municipioRepository;
 
     @GetMapping()
+    public Page<Municipio> pesquisar(MunicipioFilter municipioFilter, Pageable pageable){
+
+        return municipioRepository.filtrar(municipioFilter, pageable);
+    }
+
+
+    @GetMapping("/todas")
     public List<Municipio> listarTodosMunicipios(){
         return municipioRepository.findAll(Sort.by("nome").ascending());
     }
@@ -33,13 +42,21 @@ public class MunicipioController {
         Optional<Municipio> municipio = municipioRepository.findById(id);
         return municipio.isPresent() ? ResponseEntity.ok(municipio.get()): ResponseEntity.notFound().build();
     }
-    @DeleteMapping("/{id}")
-    public void remover(@PathVariable Long id){
-        municipioRepository.deleteById(id);
-    }
+
     @PostMapping()
     public ResponseEntity<Municipio> Inserir (@RequestBody Municipio municipio){
         Municipio municipioSalva=municipioService.salvar(municipio);
         return ResponseEntity.status(HttpStatus.CREATED).body(municipioSalva);
     }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long id){
+        municipioRepository.deleteById(id);
+    }
+    @PutMapping("/id")
+    public ResponseEntity<Municipio> atualizar(@PathVariable Long id, @RequestBody Municipio municipio) {
+        Municipio municipioSalva = municipioService.atualizar(id, municipio);
+        return ResponseEntity.ok(municipioSalva);
+    }
+
 }

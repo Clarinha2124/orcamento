@@ -49,4 +49,11 @@ public class ClienteFilter {
     private String telefone;
     private String celular;
 
+    public ClienteFilter(String endereco, String numero, String bairro, String telefone, String celular) {
+        this.endereco = endereco;
+        this.numero = numero;
+        this.bairro = bairro;
+        this.telefone = telefone;
+        this.celular = celular;
+    }
 }
